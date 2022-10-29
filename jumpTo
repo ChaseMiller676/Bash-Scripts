@@ -1,0 +1,25 @@
+#! /bin/bash
+
+function jumpTo(){
+  case $1 in
+
+    Java)
+      cd ~/Documents/Programming/Java
+      ;;
+    Bash)
+      cd ~/Documents/Programming/Bash
+      ;;
+    Assembly)
+      cd ~/Documents/Programming/Assembly
+      ;;
+    C)
+      cd ~/Documents/Programming/C
+      ;;
+    C++)
+      cd ~/Documents/Programming/C++
+      ;;
+    *)
+      echo "No Target Directory"
+      ;;
+  esac
+}
