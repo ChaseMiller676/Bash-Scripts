@@ -7,17 +7,17 @@ function createMain(){
   touch "$NAME".java
 
   echo  "public class "$NAME"{" >> "$NAME".java
-  echo  "  public static void main(String[] args){" >> "$NAME".java
-  echo  "    " >> "$NAME".java
-  echo  "  }" >> "$NAME".java
+  echo  "    public static void main(String[] args){" >> "$NAME".java
+  echo  "      " >> "$NAME".java
+  echo  "    }" >> "$NAME".java
   echo  "}" >> "$NAME".java
 }
 #-----------------
 function replaceMain(){
   echo  "public class "$NAME"{" > "$NAME".java
-  echo  "  public static void main(String[] args){" >> "$NAME".java
-  echo  "    " >> "$NAME".java
-  echo  "  }" >> "$NAME".java
+  echo  "    public static void main(String[] args){" >> "$NAME".java
+  echo  "      " >> "$NAME".java
+  echo  "    }" >> "$NAME".java
   echo  "}" >> "$NAME".java
 }
 #-----------------
@@ -26,13 +26,13 @@ function createPublicClass(){
   touch "$NAME".java
 
   echo  "public class "$NAME"{" >> "$NAME".java
-  echo  "  " >> "$NAME".java
+  echo  "	  " >> "$NAME".java
   echo  "}" >> "$NAME".java
 }
 #-----------------
 function replacePublicClass(){
   echo  "public class "$NAME"{" > "$NAME".java
-  echo  "  " >> "$NAME".java
+  echo  "	  " >> "$NAME".java
   echo  "}" >> "$NAME".java
 }
 #-----------------
@@ -41,17 +41,31 @@ function createPrivateClass(){
   touch "$NAME".java
 
   echo  "private class "$NAME"{" >> "$NAME".java
-  echo  "  " >> "$NAME".java
+  echo  "	  " >> "$NAME".java
   echo  "}" >> "$NAME".java
 }
 #-----------------
 function replacePrivateClass(){
   echo  "private class "$NAME"{" > "$NAME".java
-  echo  "  " >> "$NAME".java
+  echo  "	  " >> "$NAME".java
   echo  "}" >> "$NAME".java
 }
 #-----------------
+#Private Class Functions
+function createPrivateClass(){
+  touch "$NAME".java
 
+  echo  "abstract class "$NAME"{" >> "$NAME".java
+  echo  "	  " >> "$NAME".java
+  echo  "}" >> "$NAME".java
+}
+#-----------------
+function replacePrivateClass(){
+  echo  "abstract class "$NAME"{" > "$NAME".java
+  echo  "	  " >> "$NAME".java
+  echo  "}" >> "$NAME".java
+}
+#-----------------
 
 case $1 in
 
@@ -153,12 +167,45 @@ case $1 in
       echo "Missing Name Flag"
     fi  
     ;;
+#Private Class Creation Flag
+  --abstract-class)
+    if [ "$2" != "" ]
+    then
+      NAME=$2
+      if [ ! -f ./"$NAME".java ];
+      then
+        createPrivateClass
+      else
+        echo "Class Already Exists"
+        echo "Replace File? y/n"
+
+        read INPUT
+        case $INPUT in
+
+          y)
+            replacePrivateClass
+            ;;
+
+          Y)
+            replacePrivateClass
+            ;;
+
+          *)
+            echo "Cancelling Class Creation"
+            ;;
+        esac
+      fi
+    else
+      echo "Missing Name Flag"
+    fi  
+    ;;
 
 #Help Menu
   --help)
     echo "--main : create a public class containing a main function"
     echo "--public-class : create an empty public class"
     echo "--private-class : create an empty private class"
+	echo "--abstract-class : create an empty abstract class"
     ;;
 
   *)
